@@ -23,3 +23,10 @@ func ValidateArgs(arg []string, args []string) ([]string, error) {
 	// Else retrun a error that the user command is not exist
 	return nil, errors.New("enter a valid argument")
 }
+
+
+func HandleError(err error){
+	if err != nil {
+		log.Fatal(err)
+	}
+}
