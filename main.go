@@ -16,7 +16,10 @@ func main() {
 
 
 	// Taking the command line args without progs
-	argsWithoutProg, _ := utils.ValidateArgs(os.Args, app.Commands)
+	argsWithoutProg, err := utils.ValidateArgs(os.Args, app.Commands)
+
+	utils.HandleError(err) // If any error exist program will imediate shutdown
+	
 	fmt.Println(argsWithoutProg)
 
 }
