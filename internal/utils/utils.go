@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"slices"
+	"strings"
 )
 
 func ValidateArgs(arg []string, args []string) ([]string, error) {
@@ -33,4 +34,9 @@ func HandleError(err error) {
 // This function used to print data as a helper function it can take array or a single string
 func PrintData[T string | []string](text T) {
 	log.Println(text)
+}
+
+// converted a array of string to a single string
+func ConvertArrayToString(array []string) string{
+	return strings.Join(array, " ")
 }
