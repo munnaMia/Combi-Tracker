@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/munnaMia/Combi-Tracker/cmd"
@@ -10,16 +9,19 @@ import (
 
 func main() {
 	app := &cmd.Application{
-		Commands: []string{"add", "update", "delete" ,"mark-in-progress", "mark-done", "list"},
+		Commands:    []string{"add", "update", "delete", "mark-in-progress", "mark-done", "list"},
 		SubCommands: []string{"done", "todo", "in-progress"},
+		DbPath: "internal/database/db.go",
 	}
-
-
-	// Taking the command line args without progs
-	argsWithoutProg, err := utils.ValidateArgs(os.Args, app.Commands)
-
-	utils.HandleError(err) // If any error exist program will imediate shutdown
 	
-	fmt.Println(argsWithoutProg)
+	argsArray, err := utils.ValidateArgs(os.Args, app.Commands) // validating the arguments. and storing all the arguments in a slice.
+
+	utils.HandleError(err) // If any error occur program will be shutdown
+
+	
+	switch argsArray[0] {
+	case "add":
+		app.Add(argsArray, app.DbPath) // Adding a task to JSON
+	}
 
 }

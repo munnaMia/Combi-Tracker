@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"path/filepath"
 	"slices"
 	"strings"
 )
@@ -37,6 +38,17 @@ func PrintData[T string | []string](text T) {
 }
 
 // converted a array of string to a single string
-func ConvertArrayToString(array []string) string{
+func ConvertArrayToString(array []string) string {
 	return strings.Join(array, " ")
+}
+
+func CreateFileIfNotExist(filePath string) {
+	absFilepath, err := filepath.Abs(filePath)
+	HandleError(err) // handling the error
+
+	// creating the directory if doen't exist
+
+	// start working here next day
+	// .......
+
 }
