@@ -24,9 +24,13 @@ func ValidateArgs(arg []string, args []string) ([]string, error) {
 	return nil, errors.New("enter a valid argument")
 }
 
-
-func HandleError(err error){
+func HandleError(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// This function used to print data as a helper function it can take array or a single string
+func PrintData[T string | []string](text T) {
+	log.Println(text)
 }
