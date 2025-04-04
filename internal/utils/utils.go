@@ -1,14 +1,18 @@
 package utils
 
 import (
+	"encoding/json"
 	"errors"
 	"log"
 	"os"
 	"path/filepath"
 	"slices"
 	"strings"
+
+	datamodel "github.com/munnaMia/Combi-Tracker/Model"
 )
 
+// validate argument based on the application arguments
 func ValidateArgs(arg []string, applicationCmds []string) ([]string, error) {
 
 	// Close the program if user doesn't provide any commnads
@@ -25,6 +29,7 @@ func ValidateArgs(arg []string, applicationCmds []string) ([]string, error) {
 	return nil, errors.New("enter a valid argument")
 }
 
+// handling any err with log.fatal
 func HandleError(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -64,4 +69,21 @@ func CreateFileIfNotExist(filePath string) {
 		HandleError(err)
 		defer file.Close()
 	}
+}
+
+// Read a json file and return the json data as a Array
+func ReadJson(filePath string) []datamodel.Model {
+	var todoData []datamodel.Model
+
+	filedata, err := os.Open(filePath) // Read the file data
+	HandleError(err)
+
+	defer filedata.Close() // Closing the file after done
+
+	decoder := json.NewDecoder(filedata) // Decoding the json
+
+	err = decoder.Decode(&todoData)
+	HandleError(err)
+
+	return todoData
 }
