@@ -3,9 +3,9 @@ package datamodel
 import "time"
 
 type Model struct {
-	id          int       `json:"id"`
-	description string    `json:"description"`
-	status      string    `json:"status"`
-	createdAt   time.Time `json:"createdAt"`
-	updatedAt   time.Time `json:"updatedAt"`
+	Id          int       `json:"id"`
+	Description string    `json:"description"`
+	Status      string    `json:"status"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 }
