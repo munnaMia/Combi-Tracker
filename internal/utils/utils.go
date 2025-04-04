@@ -26,7 +26,7 @@ func ValidateArgs(arg []string, applicationCmds []string) ([]string, error) {
 	}
 
 	// Else retrun a error that the user command is not exist
-	return nil, errors.New("enter a valid argument")
+	return nil, errors.New("usage: combi-tracker <command> [arguments]")
 }
 
 // handling any err with log.fatal
@@ -74,16 +74,29 @@ func CreateFileIfNotExist(filePath string) {
 // Read a json file and return the json data as a Array
 func ReadJson(filePath string) []datamodel.Model {
 	var todoData []datamodel.Model
-
 	filedata, err := os.Open(filePath) // Read the file data
 	HandleError(err)
-
+	
 	defer filedata.Close() // Closing the file after done
-
+	
 	decoder := json.NewDecoder(filedata) // Decoding the json
-
+	
 	err = decoder.Decode(&todoData)
+	PrintData("test case")
 	HandleError(err)
 
 	return todoData
+}
+
+// Writing on a json file
+func WriteJson(filePath string, tasks []datamodel.Model) {
+	fileData, err := os.Open(filePath)
+	HandleError(err)
+
+	defer fileData.Close()
+
+	encoder := json.NewEncoder(fileData)
+	encoder.SetIndent("", " ")  // Set the indentation
+	err = encoder.Encode(tasks) // Writing into JSON file
+	HandleError(err)
 }
