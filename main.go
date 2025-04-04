@@ -11,17 +11,23 @@ func main() {
 	app := &cmd.Application{
 		Commands:    []string{"add", "update", "delete", "mark-in-progress", "mark-done", "list"},
 		SubCommands: []string{"done", "todo", "in-progress"},
-		DbPath: "internal/database/db.go",
+		TodoDb: "internal/database/todoDb.json",
+		PendDb: "internal/database/pendingDb.json",
+		DoneDb: "internal/database/doneDb.json",
+		
 	}
 	
 	argsArray, err := utils.ValidateArgs(os.Args, app.Commands) // validating the arguments. and storing all the arguments in a slice.
-
 	utils.HandleError(err) // If any error occur program will be shutdown
 
-	
-	switch argsArray[0] {
+	// Creating all the nessary files and directory.
+	utils.CreateFileIfNotExist(app.TodoDb)
+	utils.CreateFileIfNotExist(app.PendDb)
+	utils.CreateFileIfNotExist(app.DoneDb)
+
+		switch argsArray[0] {
 	case "add":
-		app.Add(argsArray, app.DbPath) // Adding a task to JSON
+		app.Add(argsArray) // Adding a task to JSON
 	}
 
 }
