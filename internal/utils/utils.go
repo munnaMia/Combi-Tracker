@@ -9,16 +9,15 @@ import (
 	"strings"
 )
 
-func ValidateArgs(arg []string, args []string) ([]string, error) {
+func ValidateArgs(arg []string, applicationCmds []string) ([]string, error) {
 
 	// Close the program if user doesn't provide any commnads
-	if len(arg) < 1 {
-		log.Print("Usage: combi-tracker <command> [arguments]")
-		os.Exit(1)
+	if len(arg) < 2 {
+		HandleError(errors.New("usage: combi-tracker <command> [arguments]"))
 	}
 
 	// If it's a valid command from the command list then retrun the command
-	if slices.Contains(args, arg[1]) {
+	if slices.Contains(applicationCmds, arg[1]) {
 		return arg[1:], nil
 	}
 
@@ -42,13 +41,27 @@ func ConvertArrayToString(array []string) string {
 	return strings.Join(array, " ")
 }
 
+// Create a file included it's directory if not exist.
 func CreateFileIfNotExist(filePath string) {
 	absFilepath, err := filepath.Abs(filePath)
 	HandleError(err) // handling the error
 
-	// creating the directory if doen't exist
+	// Create the directory if doesn't exixt
+	dir := filepath.Dir(absFilepath)
 
-	// start working here next day
-	// .......
+	_, err = os.Stat(dir) // Checking the file information
 
+	if os.IsNotExist(err) {
+		err := os.Mkdir(dir, 0755) // Creating a directory if not exist.
+		HandleError(err)
+	}
+
+	// Create the file if doex'nt exist.
+	_, err = os.Stat(absFilepath)
+
+	if os.IsNotExist(err) {
+		file, err := os.Create(absFilepath)
+		HandleError(err)
+		defer file.Close()
+	}
 }
