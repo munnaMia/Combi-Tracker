@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"errors"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -57,7 +58,7 @@ func CreateFileIfNotExist(filePath string) {
 	_, err = os.Stat(dir) // Checking the file information
 
 	if os.IsNotExist(err) {
-		err := os.Mkdir(dir, 0755) // Creating a directory if not exist.
+		err := os.MkdirAll(dir, 0755) // Creating a directory if not exist.
 		HandleError(err)
 	}
 
@@ -68,35 +69,31 @@ func CreateFileIfNotExist(filePath string) {
 		file, err := os.Create(absFilepath)
 		HandleError(err)
 		defer file.Close()
+
+		_, err = file.Write([]byte("[]")) // Write an empty array to the json
+		HandleError(err)
 	}
 }
 
 // Read a json file and return the json data as a Array
 func ReadJson(filePath string) []datamodel.Model {
-	var todoData []datamodel.Model
-	filedata, err := os.Open(filePath) // Read the file data
-	HandleError(err)
-	
-	defer filedata.Close() // Closing the file after done
-	
-	decoder := json.NewDecoder(filedata) // Decoding the json
-	
-	err = decoder.Decode(&todoData)
-	PrintData("test case")
+	var data []datamodel.Model
+
+	file, err := os.Open(filePath)
 	HandleError(err)
 
-	return todoData
+	defer file.Close()
+
+	byteValue, errRead := io.ReadAll(file)
+	HandleError(errRead)
+
+	err = json.Unmarshal(byteValue, &data)
+	HandleError(err)
+
+	return data
 }
 
 // Writing on a json file
 func WriteJson(filePath string, tasks []datamodel.Model) {
-	fileData, err := os.Open(filePath)
-	HandleError(err)
 
-	defer fileData.Close()
-
-	encoder := json.NewEncoder(fileData)
-	encoder.SetIndent("", " ")  // Set the indentation
-	err = encoder.Encode(tasks) // Writing into JSON file
-	HandleError(err)
 }

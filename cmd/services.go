@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"time"
 
 	datamodel "github.com/munnaMia/Combi-Tracker/Model"
@@ -30,11 +31,11 @@ func (app *Application) Add(argsArray []string, todoDbPath string) {
 		CreatedAt:   time.Now(),
 		UpdatedAt:   nil,
 	}
-
+	
 	// appending the new task to the pending tasks array
 	todoArray = append(todoArray, newTask)
-
+	
 	// Write into the todo JSON file or database
-	utils.WriteJson(todoDbPath, todoArray)
+	// utils.WriteJson(todoDbPath, todoArray)
 
 }
