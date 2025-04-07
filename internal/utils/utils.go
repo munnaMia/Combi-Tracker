@@ -95,5 +95,13 @@ func ReadJson(filePath string) []datamodel.Model {
 
 // Writing on a json file
 func WriteJson(filePath string, tasks []datamodel.Model) {
+	fileJson, err := json.MarshalIndent(tasks, "", " ")
+	HandleError(err)
 
+	file, errC := os.Create(filePath)
+	HandleError(errC)
+	defer file.Close()
+
+	_, err = file.Write(fileJson)
+	HandleError(err)
 }
