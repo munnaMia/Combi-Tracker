@@ -110,6 +110,7 @@ func WriteJson(filePath string, tasks []datamodel.Model) {
 // Print Data in a table form to the CLI
 func PrintTask(task datamodel.Model) {
 	// Work here to update the output...
+	
 	fmt.Printf("%-4s %-32s %-8s %-25s %-25s\n", "ID", "Description", "Status", "CreatedAt", "UpdatedAt")
 	fmt.Println(task.Id, "\t", task.Description, "\t", task.Status, "\t", task.CreatedAt, "\t", task.UpdatedAt)
 }
