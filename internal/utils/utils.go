@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -95,13 +96,20 @@ func ReadJson(filePath string) []datamodel.Model {
 
 // Writing on a json file
 func WriteJson(filePath string, tasks []datamodel.Model) {
-	fileJson, err := json.MarshalIndent(tasks, "", " ")
+	jsonData, err := json.MarshalIndent(tasks, "", " ")
 	HandleError(err)
 
 	file, errC := os.Create(filePath)
 	HandleError(errC)
 	defer file.Close()
 
-	_, err = file.Write(fileJson)
+	_, err = file.Write(jsonData)
 	HandleError(err)
+}
+
+// Print Data in a table form to the CLI
+func PrintTask(task datamodel.Model) {
+	// Work here to update the output...
+	fmt.Printf("%-4s %-32s %-8s %-25s %-25s\n", "ID", "Description", "Status", "CreatedAt", "UpdatedAt")
+	fmt.Println(task.Id, "\t", task.Description, "\t", task.Status, "\t", task.CreatedAt, "\t", task.UpdatedAt)
 }
