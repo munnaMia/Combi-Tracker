@@ -41,7 +41,7 @@ func ValidateArgs(arg []string, applicationCmds []string) ([]string, error) {
 // handling any err with log.fatal
 func HandleError(err error) {
 	if err != nil {
-		log.Fatal(maltacolor.Red, err, maltacolor.Reset)
+		log.Fatal(maltacolor.Red, err, maltacolor.Reset) // Error in red color
 	}
 }
 
@@ -50,6 +50,7 @@ func PrintData[T string | []string | []datamodel.Model | datamodel.Model](text T
 	log.Println(text)
 }
 
+// Print a success message and return a string with a green color text
 func SuccessMsg(msg string, id int) string {
 	// Formate the Success text.
 	return fmt.Sprintf("%s %s %d%s \n", maltacolor.Green, msg, id, maltacolor.Reset)
@@ -155,4 +156,14 @@ func SearchId(tasks []datamodel.Model, id int) bool {
 func DeleteTask(tasks []datamodel.Model, id int) []datamodel.Model {
 	tasks = slices.Delete(tasks, id-1, id) // Remove a task form the slice using id
 	return tasks
+}
+
+// Sort a task list and update there IDs
+func SortTask(tasks []datamodel.Model) []datamodel.Model {
+	for idx := range tasks {
+		tasks[idx].Id = idx + 1
+	}
+
+	return tasks // return the sort list
+
 }

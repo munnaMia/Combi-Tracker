@@ -27,5 +27,4 @@ func main() {
 		app.Delete(argsArray, app.TodoDb) // Delete a Single Task
 	}
 
-
 }
