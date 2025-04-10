@@ -41,7 +41,7 @@ func ValidateArgs(arg []string, applicationCmds []string) ([]string, error) {
 // handling any err with log.fatal
 func HandleError(err error) {
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(maltacolor.Red, err, maltacolor.Reset)
 	}
 }
 
@@ -124,6 +124,7 @@ func PrintTask(task datamodel.Model) {
 	fmt.Printf(tableFormaterData, task.Id, task.Description, setStatusColor(task.Status), task.Status, maltacolor.Reset, task.CreatedAt.Format("2006-01-02 15:04:05"), task.UpdatedAt)
 }
 
+// Set a color for the task.Status attribute
 func setStatusColor(status string) string {
 	if status == "todo" {
 		return maltacolor.Red
@@ -133,4 +134,14 @@ func setStatusColor(status string) string {
 		return maltacolor.Blue
 	}
 	return ""
+}
+
+// Search if the id exist.
+func SearchId(tasks []datamodel.Model, id int) (bool) {
+	for _, task := range tasks {
+		if task.Id == id {
+			return true
+		}
+	}
+	return false
 }
