@@ -50,6 +50,11 @@ func PrintData[T string | []string | []datamodel.Model | datamodel.Model](text T
 	log.Println(text)
 }
 
+func SuccessMsg(msg string, id int) string {
+	// Formate the Success text.
+	return fmt.Sprintf("%s %s %d%s \n", maltacolor.Green, msg, id, maltacolor.Reset)
+}
+
 // converted a array of string to a single string
 func ConvertArrayToString(array []string) string {
 	return strings.Join(array, " ")
