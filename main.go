@@ -10,7 +10,7 @@ import (
 func main() {
 	app := &cmd.Application{
 		Commands:    []string{"add", "update", "delete", "mark-in-progress", "mark-done", "list"},
-		SubCommands: []string{"done", "todo", "in-progress"},
+		SubCommands: []string{"done", "todo", "in-progress"}, // use this sub command with list>command
 		TodoDb:      "internal/database/todoDb.json",
 		ProgDb:      "internal/database/progDb.json",
 		DoneDb:      "internal/database/doneDb.json",

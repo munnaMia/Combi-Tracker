@@ -12,6 +12,13 @@ import (
 	"strings"
 
 	datamodel "github.com/munnaMia/Combi-Tracker/Model"
+	maltacolor "github.com/munnaMia/Combi-Tracker/internal/maltaColor"
+)
+
+// Format the table output for terminal.
+const (
+	tableFormaterTitle = "%s%-4s %-32s %-8s %-25s %-25s%s\n"
+	tableFormaterData  = "%-4d %-32s %s%-8s%s %-25s %-25s\n"
 )
 
 // validate argument based on the application arguments
@@ -109,8 +116,21 @@ func WriteJson(filePath string, tasks []datamodel.Model) {
 
 // Print Data in a table form to the CLI
 func PrintTask(task datamodel.Model) {
-	// Work here to update the output...
-	
-	fmt.Printf("%-4s %-32s %-8s %-25s %-25s\n", "ID", "Description", "Status", "CreatedAt", "UpdatedAt")
-	fmt.Println(task.Id, "\t", task.Description, "\t", task.Status, "\t", task.CreatedAt, "\t", task.UpdatedAt)
+	/*
+		Using Bright Yellow color to highlight the Title bar
+		using setStatusColor to set the status color based on "todo", "done", "in-progress"
+	*/
+	fmt.Printf(tableFormaterTitle, maltacolor.BrightYellow, "ID", "Description", "Status", "CreatedAt", "UpdatedAt", maltacolor.Reset)
+	fmt.Printf(tableFormaterData, task.Id, task.Description, setStatusColor(task.Status), task.Status, maltacolor.Reset, task.CreatedAt.Format("2006-01-02 15:04:05"), task.UpdatedAt)
+}
+
+func setStatusColor(status string) string {
+	if status == "todo" {
+		return maltacolor.Red
+	} else if status == "done" {
+		return maltacolor.Green
+	} else if status == "in-progress" {
+		return maltacolor.Blue
+	}
+	return ""
 }
