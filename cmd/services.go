@@ -11,31 +11,35 @@ type Application struct {
 	Commands    []string
 	SubCommands []string
 	TodoDb      string
-	ProgDb      string
-	DoneDb      string
 }
 
 // Adding a task
 func (app *Application) Add(argsArray []string, todoDbPath string) {
 	taskDiscription := utils.ConvertArrayToString(argsArray[1:]) // taking the task discription and remove the args
 
-	// i have to find the current ID for a new task
-	todoArray := utils.ReadJson(todoDbPath) // pending work list
+	todoArray := utils.ReadJson(todoDbPath) // pending task list
 
 	// Create a new task
 	newTask := datamodel.Model{
-		Id:          len(todoArray)+1,
+		Id:          len(todoArray) + 1,
 		Description: taskDiscription,
 		Status:      "todo",
 		CreatedAt:   time.Now(),
 		UpdatedAt:   nil,
 	}
 
-	// appending the new task to the pending tasks array
-	todoArray = append(todoArray, newTask)
+	todoArray = append(todoArray, newTask) // appending the new task to the pending tasks array
 
-	// Write into the todo JSON file or database
-	utils.WriteJson(todoDbPath, todoArray)
+	utils.WriteJson(todoDbPath, todoArray) // Write into the todo JSON file or database
 
-	utils.PrintTask(newTask)
+	utils.PrintTask(newTask) // Print the new task
+}
+
+// Delete a task
+func (app *Application) Delete(argsArray []string, todoDbPath string){
+	// Extract the ID from arguments
+	// Validate the ID
+	// Check the ID exist or not into the DB
+		// If exist then Delete the task by slicing it off
+	// Sort the DB IDs
 }

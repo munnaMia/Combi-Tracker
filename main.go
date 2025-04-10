@@ -12,8 +12,6 @@ func main() {
 		Commands:    []string{"add", "update", "delete", "mark-in-progress", "mark-done", "list"},
 		SubCommands: []string{"done", "todo", "in-progress"}, // use this sub command with list>command
 		TodoDb:      "internal/database/todoDb.json",
-		ProgDb:      "internal/database/progDb.json",
-		DoneDb:      "internal/database/doneDb.json",
 	}
 
 	argsArray, err := utils.ValidateArgs(os.Args, app.Commands) // validating the arguments. and storing all the arguments in a slice.
@@ -21,12 +19,13 @@ func main() {
 
 	// Creating all the nessary files and directory.
 	utils.CreateFileIfNotExist(app.TodoDb)
-	utils.CreateFileIfNotExist(app.ProgDb)
-	utils.CreateFileIfNotExist(app.DoneDb)
 
 	switch argsArray[0] {
 	case "add":
 		app.Add(argsArray, app.TodoDb) // Adding a task to JSON
+	case "delete":
+		app.Delete(argsArray, app.TodoDb) // Delete a Single Task
 	}
+
 
 }
