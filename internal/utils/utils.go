@@ -46,7 +46,7 @@ func HandleError(err error) {
 }
 
 // This function used to print data as a helper function it can take array or a single string
-func PrintData[T string | []string](text T) {
+func PrintData[T string | []string | []datamodel.Model | datamodel.Model](text T) {
 	log.Println(text)
 }
 
@@ -137,11 +137,17 @@ func setStatusColor(status string) string {
 }
 
 // Search if the id exist.
-func SearchId(tasks []datamodel.Model, id int) (bool) {
+func SearchId(tasks []datamodel.Model, id int) bool {
 	for _, task := range tasks {
 		if task.Id == id {
 			return true
 		}
 	}
 	return false
+}
+
+// Delete a task form []task
+func DeleteTask(tasks []datamodel.Model, id int) []datamodel.Model {
+	tasks = slices.Delete(tasks, id-1, id) // Remove a task form the slice using id
+	return tasks
 }
