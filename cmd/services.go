@@ -74,7 +74,7 @@ func (app *Application) Delete(argsArray []string, todoDbPath string) {
 }
 
 // Update a Task
-func (app *Application) Update(argsArray []string, todoDbPath string){
+func (app *Application) Update(argsArray []string, todoDbPath string) {
 
 	taskIdToUpdate, err := strconv.Atoi(argsArray[1]) // get the id of the task to delete
 	// Overwriting the error for this case only.
@@ -92,11 +92,41 @@ func (app *Application) Update(argsArray []string, todoDbPath string){
 
 	todoDatas[taskIdToUpdate-1].Description = updatedDiscription // Update the discription
 	// adding the updating time
-	now := time.Now() // Current time
+	now := time.Now()                            // Current time
 	todoDatas[taskIdToUpdate-1].UpdatedAt = &now // adding the current updating time
 
-	utils.WriteJson(todoDbPath, todoDatas)	 
+	utils.WriteJson(todoDbPath, todoDatas)
 
 	utils.PrintData(utils.SuccessMsg("Task updated successfully ID: ", taskIdToUpdate))
 	utils.PrintTask(todoDatas[taskIdToUpdate-1])
+}
+
+// Mark in progress a task
+func (app *Application) MarkInProgress(argsArray []string, todoDbPath string) {
+	if len(argsArray) != 2 {
+		utils.HandleError(errors.New("usage: combi-tracker <command> [arguments]")) // [delete <id>] if more than 2 element as input return err
+	}
+
+	taskIdItToMarkInProgress, err := strconv.Atoi(argsArray[1]) // get the id of the task to delete
+	// Overwriting the error for this case only.
+	if err != nil {
+		utils.HandleError(errors.New("id must have to be a integer value"))
+	}
+
+	todoDatas := utils.ReadJson(todoDbPath) // Read the JSON DB.
+
+	// Checking the given id exist or not
+	if exist := utils.SearchId(todoDatas, taskIdItToMarkInProgress); !exist {
+		utils.HandleError(errors.New("the given id isn't exist"))
+	}
+
+	todoDatas[taskIdItToMarkInProgress-1].Status = "in-progress" // Update the status to progress
+	// adding the updating time
+	now := time.Now()                                      // Current time
+	todoDatas[taskIdItToMarkInProgress-1].UpdatedAt = &now // adding the current updating time
+
+	utils.WriteJson(todoDbPath, todoDatas)
+
+	utils.PrintData(utils.SuccessMsg("Task mark in progress successfully ID: ", taskIdItToMarkInProgress))
+	utils.PrintTask(todoDatas[taskIdItToMarkInProgress-1])
 }
