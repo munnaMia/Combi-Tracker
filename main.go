@@ -29,6 +29,8 @@ func main() {
 		app.Update(argsArray, app.TodoDb) // Update a Single Task
 	case "mark-in-progress":
 		app.MarkInProgress(argsArray, app.TodoDb) // Mark in progress a task
+	case "mark-done":
+		app.MarkDone(argsArray, app.TodoDb) // Mark done a task
 	}
 
 }

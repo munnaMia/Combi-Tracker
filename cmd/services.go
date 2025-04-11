@@ -130,3 +130,33 @@ func (app *Application) MarkInProgress(argsArray []string, todoDbPath string) {
 	utils.PrintData(utils.SuccessMsg("Task mark in progress successfully ID: ", taskIdItToMarkInProgress))
 	utils.PrintTask(todoDatas[taskIdItToMarkInProgress-1])
 }
+
+// Mark Done a task
+func (app *Application) MarkDone(argsArray []string, todoDbPath string) {
+	if len(argsArray) != 2 {
+		utils.HandleError(errors.New("usage: combi-tracker <command> [arguments]")) // [delete <id>] if more than 2 element as input return err
+	}
+
+	taskIdItToMarkInProgress, err := strconv.Atoi(argsArray[1]) // get the id of the task to delete
+	// Overwriting the error for this case only.
+	if err != nil {
+		utils.HandleError(errors.New("id must have to be a integer value"))
+	}
+
+	todoDatas := utils.ReadJson(todoDbPath) // Read the JSON DB.
+
+	// Checking the given id exist or not
+	if exist := utils.SearchId(todoDatas, taskIdItToMarkInProgress); !exist {
+		utils.HandleError(errors.New("the given id isn't exist"))
+	}
+
+	todoDatas[taskIdItToMarkInProgress-1].Status = "done" // Update the status to progress
+	// adding the updating time
+	now := time.Now()                                      // Current time
+	todoDatas[taskIdItToMarkInProgress-1].UpdatedAt = &now // adding the current updating time
+
+	utils.WriteJson(todoDbPath, todoDatas)
+
+	utils.PrintData(utils.SuccessMsg("Task mark in progress successfully ID: ", taskIdItToMarkInProgress))
+	utils.PrintTask(todoDatas[taskIdItToMarkInProgress-1])
+}
