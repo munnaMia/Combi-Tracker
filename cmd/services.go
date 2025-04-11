@@ -72,3 +72,31 @@ func (app *Application) Delete(argsArray []string, todoDbPath string) {
 	utils.PrintTask(deletedTask) // Print the deleted task to user
 
 }
+
+// Update a Task
+func (app *Application) Update(argsArray []string, todoDbPath string){
+
+	taskIdToUpdate, err := strconv.Atoi(argsArray[1]) // get the id of the task to delete
+	// Overwriting the error for this case only.
+	if err != nil {
+		utils.HandleError(errors.New("id must have to be a integer value"))
+	}
+
+	updatedDiscription := utils.ConvertArrayToString(argsArray[2:])
+
+	todoDatas := utils.ReadJson(todoDbPath) // Read the JSON DB.
+
+	if exist := utils.SearchId(todoDatas, taskIdToUpdate); !exist {
+		utils.HandleError(errors.New("the given id isn't exist"))
+	}
+
+	todoDatas[taskIdToUpdate-1].Description = updatedDiscription // Update the discription
+	// adding the updating time
+	now := time.Now() // Current time
+	todoDatas[taskIdToUpdate-1].UpdatedAt = &now // adding the current updating time
+
+	utils.WriteJson(todoDbPath, todoDatas)	 
+
+	utils.PrintData(utils.SuccessMsg("Task updated successfully ID: ", taskIdToUpdate))
+	utils.PrintTask(todoDatas[taskIdToUpdate-1])
+}
