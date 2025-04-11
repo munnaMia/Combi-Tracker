@@ -27,6 +27,8 @@ func main() {
 		app.Delete(argsArray, app.TodoDb) // Delete a Single Task
 	case "update":
 		app.Update(argsArray, app.TodoDb) // Update a Single Task
+	case "mark-in-progress":
+		app.MarkInProgress(argsArray, app.TodoDb) // Mark in progress a task
 	}
 
 }

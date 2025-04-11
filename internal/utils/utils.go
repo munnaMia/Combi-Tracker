@@ -17,8 +17,8 @@ import (
 
 // Format the table output for terminal.
 const (
-	tableFormaterTitle = "%s%-4s %-32s %-8s %-25s %-25s%s\n"
-	tableFormaterData  = "%-4d %-32s %s%-8s%s %-25s %-25s\n"
+	tableFormaterTitle = "%s%-4s %-32s %-15s %-25s %-25s%s\n"
+	tableFormaterData  = "%-4d %-32s %s%-15s%s %-25s %-25s\n"
 )
 
 // validate argument based on the application arguments
