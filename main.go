@@ -10,7 +10,7 @@ import (
 func main() {
 	app := &cmd.Application{
 		Commands:    []string{"add", "update", "delete", "mark-in-progress", "mark-done", "list"},
-		SubCommands: []string{"done", "todo", "in-progress"}, // use this sub command with list>command
+		SubCommands: []string{"done", "todo", "in-progress"}, // use this as sub commands with list>command
 		TodoDb:      "internal/database/todoDb.json",
 	}
 
@@ -25,6 +25,8 @@ func main() {
 		app.Add(argsArray, app.TodoDb) // Adding a task to JSON
 	case "delete":
 		app.Delete(argsArray, app.TodoDb) // Delete a Single Task
+	case "update":
+		app.Update(argsArray, app.TodoDb) // Update a Single Task
 	}
 
 }
