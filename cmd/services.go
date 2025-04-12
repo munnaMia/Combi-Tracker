@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"slices"
 	"strconv"
 	"time"
 
@@ -159,4 +160,25 @@ func (app *Application) MarkDone(argsArray []string, todoDbPath string) {
 
 	utils.PrintData(utils.SuccessMsg("Task mark in progress successfully ID: ", taskIdItToMarkInProgress))
 	utils.PrintTask(todoDatas[taskIdItToMarkInProgress-1])
+}
+
+func (app *Application) List(argsArray []string, subCommands []string, todoDbPath string) {
+	todoDatas := utils.ReadJson(todoDbPath) // Read the JSON DB.
+
+	if len(argsArray) == 1 {
+		utils.PrintTasksTable(todoDatas) // Print all task as input is LIST. only
+	} else if len(argsArray) == 2 {
+		// validation the sub command
+		if !slices.Contains(subCommands, argsArray[1]) {
+			utils.HandleError(errors.New("enter a valid command <list done/todo/in-progress>"))
+		}
+		
+		// Filter based on status
+		filterTasks := utils.FillterTask(todoDatas, argsArray[1])
+		utils.PrintTasksTable(filterTasks)
+
+	} else {
+		utils.HandleError(errors.New("usage: combi-tracker <command> [arguments]"))
+	}
+
 }
