@@ -167,3 +167,19 @@ func SortTask(tasks []datamodel.Model) []datamodel.Model {
 	return tasks // return the sort list
 
 }
+
+// Show tasks tables
+func PrintTasksTable(tasks []datamodel.Model) {
+	// Print all task as a list
+	fmt.Printf(tableFormaterTitle, maltacolor.BrightYellow, "ID", "Description", "Status", "CreatedAt", "UpdatedAt", maltacolor.Reset)
+
+	for _, task := range tasks {
+		updatedAt := "N/A"
+		if task.UpdatedAt != nil {
+			updatedAt = task.UpdatedAt.Format("2006-01-02 15:04:05")
+		}
+		fmt.Printf(tableFormaterData, task.Id, task.Description, setStatusColor(task.Status), task.Status, maltacolor.Reset, task.CreatedAt.Format("2006-01-02 15:04:05"), updatedAt)
+	}
+}
+
+
