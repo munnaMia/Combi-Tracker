@@ -9,7 +9,7 @@ import (
 
 func main() {
 	app := &cmd.Application{
-		Commands:    []string{"add", "update", "delete", "mark-in-progress", "mark-done", "list"},
+		Commands:    []string{"add", "update", "delete", "mark-in-progress", "mark-done", "list", "help"},
 		SubCommands: []string{"done", "todo", "in-progress"}, // use this as sub commands with list>command
 		TodoDb:      "internal/database/todoDb.json",
 	}
@@ -31,6 +31,9 @@ func main() {
 		app.MarkInProgress(argsArray, app.TodoDb) // Mark in progress a task
 	case "mark-done":
 		app.MarkDone(argsArray, app.TodoDb) // Mark done a task
+	case "list":
+		app.List(argsArray, app.SubCommands, app.TodoDb) // Show all task or based on there status
+	
 	}
 
 }
