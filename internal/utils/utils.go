@@ -126,8 +126,12 @@ func PrintTask(task datamodel.Model) {
 		Using Bright Yellow color to highlight the Title bar
 		using setStatusColor to set the status color based on "todo", "done", "in-progress"
 	*/
+	updatedAt := "N/A"
+	if task.UpdatedAt != nil {
+		updatedAt = task.UpdatedAt.Format("2006-01-02 15:04:05")
+	}
 	fmt.Printf(tableFormaterTitle, maltacolor.BrightYellow, "ID", "Description", "Status", "CreatedAt", "UpdatedAt", maltacolor.Reset)
-	fmt.Printf(tableFormaterData, task.Id, task.Description, setStatusColor(task.Status), task.Status, maltacolor.Reset, task.CreatedAt.Format("2006-01-02 15:04:05"), task.UpdatedAt.Format("2006-01-02 15:04:05"))
+	fmt.Printf(tableFormaterData, task.Id, task.Description, setStatusColor(task.Status), task.Status, maltacolor.Reset, task.CreatedAt.Format("2006-01-02 15:04:05"), updatedAt)
 }
 
 // Set a color for the task.Status attribute
