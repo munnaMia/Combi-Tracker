@@ -182,4 +182,13 @@ func PrintTasksTable(tasks []datamodel.Model) {
 	}
 }
 
-
+// Fillter task based on status and return a slice
+func FilterTask(tasks []datamodel.Model, status string) []datamodel.Model {
+	var tempTasks []datamodel.Model
+	for _, task := range tasks {
+		if task.Status == status {
+			tempTasks = append(tempTasks, task)
+		}
+	}
+	return tempTasks
+}

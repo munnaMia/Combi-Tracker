@@ -33,7 +33,8 @@ func main() {
 		app.MarkDone(argsArray, app.TodoDb) // Mark done a task
 	case "list":
 		app.List(argsArray, app.SubCommands, app.TodoDb) // Show all task or based on there status
-	
+	case "help":
+		app.Help() // Show all the command
 	}
 
 }
